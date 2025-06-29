@@ -4,28 +4,7 @@ A FastAPI-based system for analyzing blood test reports using CrewAI, with backg
 
 ---
 
-##  Bugs Found & How They Were Fixed
-
-- **Import Errors:**
-  - Fixed incorrect imports (e.g., `from crewai.agents import Agent` to `from crewai import Agent`).
-  - Removed undefined imports (e.g., `search_tool`).
-- **Task Validation Errors:**
-  - Removed or fixed invalid `tools` arguments in Task definitions to resolve Pydantic validation errors.
-- **Dependency Issues:**
-  - Cleaned up `requirements.txt` to include only necessary packages.
-  - Installed missing runtime dependencies (e.g., `python-multipart`).
-- **FastAPI Server Startup:**
-  - Removed `reload=True` from `uvicorn.run` in `main.py` for compatibility.
-- **File Handling:**
-  - Ensured uploaded files are saved with unique names and cleaned up after processing.
-- **Celery Integration:**
-  - Fixed argument passing to Celery tasks to ensure analysis results are saved in the database.
-- **Database Integration:**
-  - Added SQLAlchemy models and ensured results are stored and retrievable.
-
----
-
-## 🐛 Identified Bugs & Problems (Before Fixes)
+## 🐛 Bugs Found & How They Were Fixed
 
 1. ❌ Broken LLM Initialization in agents.py
    - **Problem:** `llm = llm` caused a NameError since `llm` was not defined before assignment.
@@ -43,6 +22,17 @@ A FastAPI-based system for analyzing blood test reports using CrewAI, with backg
    - **Problem:** Uploaded PDF's `file_path` was not used by the agent/task.
    - **Fix:** Ensured `run_crew(query, file_path)` passes the correct file path to the Task or Tool.
 
+5. **Other General Fixes:**
+   - Fixed incorrect imports (e.g., `from crewai.agents import Agent` to `from crewai import Agent`).
+   - Removed undefined imports (e.g., `search_tool`).
+   - Removed or fixed invalid `tools` arguments in Task definitions to resolve Pydantic validation errors.
+   - Cleaned up `requirements.txt` to include only necessary packages.
+   - Installed missing runtime dependencies (e.g., `python-multipart`).
+   - Removed `reload=True` from `uvicorn.run` in `main.py` for compatibility.
+   - Ensured uploaded files are saved with unique names and cleaned up after processing.
+   - Fixed argument passing to Celery tasks to ensure analysis results are saved in the database.
+   - Added SQLAlchemy models and ensured results are stored and retrievable.
+
 ---
 
 ## 🚀 Setup & Usage Instructions
@@ -57,6 +47,15 @@ cd blood-test-analyser-debug
 ```
 pip install -r requirements.txt
 ```
+
+### 2.1. Set Up Environment Variables
+
+- Create a `.env` file in the project root directory.
+- Add your Google API key:
+  ```
+  GOOGLE_API_KEY=your-google-api-key-here
+  ```
+  Replace `your-google-api-key-here` with your actual API key.
 
 ### 3. Install & Start Redis
 - **Windows:** Download from https://github.com/tporadowski/redis/releases, extract, and run `redis-server.exe`.
@@ -113,9 +112,3 @@ python main.py
 - Uploaded files are saved temporarily and deleted after processing.
 - All analysis results are stored in `analysis_results.db` (SQLite).
 - For any issues, check the logs of the FastAPI server and Celery worker.
-
----
-
-## 📬 Submission
-- Ensure your repository contains only the necessary code, this README, and a `.gitignore` for Python/SQLite/OS files.
-- Push to GitHub and submit your repository link.
