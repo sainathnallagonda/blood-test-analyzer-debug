@@ -1,0 +1,9 @@
+# Minimal requirements for blood-test-analyser-debug
+fastapi
+uvicorn
+crewai==0.130.0
+python-dotenv
+pandas
+numpy
+pillow
+# Add more only if you get ImportError at runtime
