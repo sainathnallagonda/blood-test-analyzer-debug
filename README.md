@@ -4,21 +4,21 @@ A FastAPI-based system for analyzing blood test reports using CrewAI, with backg
 
 ---
 
-## 🐛 Bugs Found & How They Were Fixed
+##  Bugs Found & How They Were Fixed
 
-1. ❌ Broken LLM Initialization in agents.py
+1.  Broken LLM Initialization in agents.py
    - **Problem:** `llm = llm` caused a NameError since `llm` was not defined before assignment.
    - **Fix:** Imported and initialized a valid LLM instance, e.g. `from langchain.llms import OpenAI; llm = OpenAI(temperature=0.7)`.
 
-2. ❌ Missing Import in tools.py
+2.  Missing Import in tools.py
    - **Problem:** `PDFLoader` was not imported, causing a NameError.
    - **Fix:** Added `from langchain.document_loaders import PDFLoader`.
 
-3. ⚠️ Incorrect Async Usage in BloodTestReportTool
+3.  Incorrect Async Usage in BloodTestReportTool
    - **Problem:** Used `async def` inside a class without `self`, and not used asynchronously elsewhere.
    - **Fix:** Changed to a regular method: `def read_data_tool(self, path='data/sample.pdf'):`
 
-4. ⚠️ File Path Parameter Not Passed Down
+4.  File Path Parameter Not Passed Down
    - **Problem:** Uploaded PDF's `file_path` was not used by the agent/task.
    - **Fix:** Ensured `run_crew(query, file_path)` passes the correct file path to the Task or Tool.
 
@@ -35,7 +35,7 @@ A FastAPI-based system for analyzing blood test reports using CrewAI, with backg
 
 ---
 
-## 🚀 Setup & Usage Instructions
+##  Setup & Usage Instructions
 
 ### 1. Clone the Repository
 ```
@@ -80,7 +80,7 @@ python main.py
 
 ---
 
-## 📑 API Documentation
+##  API Documentation
 
 ### **Health Check**
 - **GET /**
@@ -108,7 +108,7 @@ python main.py
 
 ---
 
-## 📝 Notes
+##  Notes
 - Uploaded files are saved temporarily and deleted after processing.
 - All analysis results are stored in `analysis_results.db` (SQLite).
 - For any issues, check the logs of the FastAPI server and Celery worker.
