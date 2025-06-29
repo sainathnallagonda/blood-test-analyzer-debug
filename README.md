@@ -4,7 +4,7 @@ A FastAPI-based system for analyzing blood test reports using CrewAI, with backg
 
 ---
 
-## 🐞 Bugs Found & How They Were Fixed
+##  Bugs Found & How They Were Fixed
 
 - **Import Errors:**
   - Fixed incorrect imports (e.g., `from crewai.agents import Agent` to `from crewai import Agent`).
@@ -22,6 +22,26 @@ A FastAPI-based system for analyzing blood test reports using CrewAI, with backg
   - Fixed argument passing to Celery tasks to ensure analysis results are saved in the database.
 - **Database Integration:**
   - Added SQLAlchemy models and ensured results are stored and retrievable.
+
+---
+
+## 🐛 Identified Bugs & Problems (Before Fixes)
+
+1. ❌ Broken LLM Initialization in agents.py
+   - **Problem:** `llm = llm` caused a NameError since `llm` was not defined before assignment.
+   - **Fix:** Imported and initialized a valid LLM instance, e.g. `from langchain.llms import OpenAI; llm = OpenAI(temperature=0.7)`.
+
+2. ❌ Missing Import in tools.py
+   - **Problem:** `PDFLoader` was not imported, causing a NameError.
+   - **Fix:** Added `from langchain.document_loaders import PDFLoader`.
+
+3. ⚠️ Incorrect Async Usage in BloodTestReportTool
+   - **Problem:** Used `async def` inside a class without `self`, and not used asynchronously elsewhere.
+   - **Fix:** Changed to a regular method: `def read_data_tool(self, path='data/sample.pdf'):`
+
+4. ⚠️ File Path Parameter Not Passed Down
+   - **Problem:** Uploaded PDF's `file_path` was not used by the agent/task.
+   - **Fix:** Ensured `run_crew(query, file_path)` passes the correct file path to the Task or Tool.
 
 ---
 
